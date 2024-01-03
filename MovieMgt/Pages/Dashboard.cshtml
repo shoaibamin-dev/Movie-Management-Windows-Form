@@ -1,0 +1,60 @@
+﻿@page
+@model MovieMgt.Pages.DashboardModel
+@{
+    ViewData["Title"] = "Dashboard";
+}
+
+<style>
+    .navbar-nav {
+        visibility: hidden
+    }
+</style>
+
+@{
+
+    var role = Model.role;
+}
+
+<div>
+
+  
+
+    <div>
+
+        @if (role == "admin")
+        {
+            <a href="/Forms/AddMovie" style="float:right" class="btn btn-primary">Add a Movie</a>
+        }
+
+        <h4>Meta Data From JSON</h4>
+        <p>user email: @Model.email</p>
+        <p>user role: @Model.role</p>
+        <p>total movies: @Model.total_movies_</p>
+        <p>total users: @Model.total_users_</p>
+
+        <h1>Movies</h1>
+        <div style=" display: flex; justify-content: space-evenly; flex-wrap: wrap; ">
+
+            @foreach (var movie in Model.list)
+            {
+                <div class="card" style="width:200px; text-align:center">
+                    <img class="card-img-top" src=@movie.image_url alt="Card image">
+                    <div class="card-body">
+                        <h4 class="card-title">@movie.title</h4>
+                        <a href="/Movie?id=@movie.id" class="btn btn-outline-primary btn-sm">See Details</a>
+
+                        <div class="mt-2">
+                            <a href="/Forms/EditMovie?id=@movie.id" class="btn btn-outline-secondary btn-sm">Edit</a>
+                            <form method="post">
+                                <button type="submit" asp-page-handler="DeleteMovie" asp-route-sessioncount="@movie.id" class="btn btn-outline-danger btn-sm">Delete</button>
+                            </form>
+                        </div>
+
+                    </div>
+                </div>
+            }
+
+
+        </div>
+    </div>
+</div>
